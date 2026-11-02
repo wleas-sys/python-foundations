@@ -1,6 +1,4 @@
 numbers = [2, 4, 6, 8]
-numbers = [2, 4, 6, 8]
-
 total = 0
 for number in numbers:
     total = total + number
@@ -53,12 +51,33 @@ def average(numbers):
         total = total + number
 
     return total / len(numbers)
-    print(average([2, 4, 6, 8]))
-    print(average([10]))
-    return total / len(numbers)
+
+
 print(average([2, 4, 6, 8]))
 print(average([10]))
+
 try:
     average([])
 except ValueError as error:
     print(type(error).__name__, error)
+
+
+def reverse_text(text):
+    result = ""
+    for char in text:
+        result = char + result
+    return result
+
+
+print(reverse_text("hello"))
+print(reverse_text(""))
+
+
+def is_palindrome(text):
+    normalized = text.lower()
+    return normalized == reverse_text(normalized)
+
+
+print(is_palindrome("level"))
+print(is_palindrome("Hello"))
+print(is_palindrome(""))
