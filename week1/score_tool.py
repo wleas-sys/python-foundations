@@ -1,9 +1,27 @@
+def validate_score(value):
+    if not isinstance(value, (int, float)):
+        raise ValueError("score must be a number")
+
+    if value < 0 or value > 100:
+        raise ValueError("score must be between 0 and 100")
+
+    return value
+
+
+def get_student_score(student):
+    if "score" not in student:
+        raise ValueError("student must contain score")
+
+    return validate_score(student["score"])
+
+
 def calculate_average(students):
     if not students:
         raise ValueError("students cannot be empty")
     total = 0
     for student in students:
-        total = total + student["score"]
+        score = get_student_score(student)
+        total = total + score
     return total / len(students)
 
 
@@ -12,7 +30,9 @@ def find_highest_student(students):
         raise ValueError("students cannot be empty")
     highest = students[0]
     for student in students:
-        if student["score"] > highest["score"]:
+        score = get_student_score(student)
+
+        if score > highest["score"]:
             highest = student
     return highest
 
@@ -20,9 +40,13 @@ def find_highest_student(students):
 def calculate_pass_rate(students, passing_score=60):
     if not students:
         raise ValueError("students cannot be empty")
+    passing_score = validate_score(passing_score)
     passed_count = 0
+
     for student in students:
-        if student["score"] >= passing_score:
+        score = get_student_score(student)
+
+        if score >= passing_score:
             passed_count += 1
     return passed_count / len(students) * 100
 
@@ -46,7 +70,6 @@ def main():
     print(find_highest_student(students))
     print(calculate_pass_rate(students))
     print(build_report(students))
-
 
 if __name__ == "__main__":
     main()
