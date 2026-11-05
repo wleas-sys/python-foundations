@@ -1,8 +1,23 @@
+import argparse
 import json
 from pathlib import Path
 
 
 DATA_FILE = Path(__file__).with_name("scores.json")
+
+
+def parse_args(args=None):
+    parser = argparse.ArgumentParser(
+        description="Calculate a report from a student scores JSON file."
+    )
+    parser.add_argument(
+        "path",
+        nargs="?",
+        type=Path,
+        default=DATA_FILE,
+        help="path to the scores JSON file",
+    )
+    return parser.parse_args(args)
 
 
 def load_students(path=DATA_FILE):
@@ -89,7 +104,8 @@ def format_report(report):
     )
 
 def main():
-    students = load_students()
+    args = parse_args()
+    students = load_students(args.path)
     report = build_report(students)
     print(format_report(report))
 

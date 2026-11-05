@@ -35,6 +35,12 @@
 .\.venv\Scripts\python.exe .\week1\score_tool.py
 ```
 
+也可以指定其他成绩文件：
+
+```powershell
+.\.venv\Scripts\python.exe .\week1\score_tool.py .\week1\scores.json
+```
+
 预期输出：
 
 ```text
@@ -49,7 +55,7 @@
 .\.venv\Scripts\python.exe .\week1\test_score_tool.py
 ```
 
-当前包含 11 个测试，覆盖正常统计、JSON 读取、文件缺失、JSON 格式错误和异常分数。
+当前包含 13 个测试，覆盖正常统计、JSON 读取、文件缺失、JSON 格式错误、异常分数和命令行参数。
 
 ## 目录结构
 
@@ -70,7 +76,4 @@ python-foundations/
     └── test_score_tool.py
 ```
 
-## 当前限制
-
-- 数据文件路径暂未通过命令行参数指定。
 

@@ -114,6 +114,16 @@ class TestScoreTool(unittest.TestCase):
             ):
                 score_tool.load_students(path)
 
+    def test_parse_args_uses_default_path(self):
+        args = score_tool.parse_args([])
+
+        self.assertEqual(args.path, score_tool.DATA_FILE)
+
+    def test_parse_args_accepts_custom_path(self):
+        args = score_tool.parse_args(["custom.json"])
+
+        self.assertEqual(args.path, Path("custom.json"))
+
 
 if __name__ == "__main__":
     unittest.main()
