@@ -68,6 +68,7 @@ python-foundations/
     ├── day2_loops.py
     ├── hello_pycharm.py
     ├── math_notes.md
+    ├── network_notes.md
     ├── questions.md
     ├── scores.json
     ├── scope_test.py
