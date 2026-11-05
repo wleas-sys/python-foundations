@@ -57,7 +57,14 @@ def build_report(students):
         "highest": find_highest_student(students),
         "pass_rate": calculate_pass_rate(students),
     }
+def format_report(report):
+    highest = report["highest"]
 
+    return (
+        f"平均分：{report['average']:.2f}\n"
+        f"最高分：{highest['name']}（{highest['score']}）\n"
+        f"及格率：{report['pass_rate']:.2f}%"
+    )
 
 def main():
     students = [
@@ -65,11 +72,8 @@ def main():
         {"name": "ls", "score": 58},
         {"name": "ww", "score": 76},
     ]
-    print(students)
-    print(calculate_average(students))
-    print(find_highest_student(students))
-    print(calculate_pass_rate(students))
-    print(build_report(students))
+    report = build_report(students)
+    print(format_report(report))
 
 if __name__ == "__main__":
     main()
