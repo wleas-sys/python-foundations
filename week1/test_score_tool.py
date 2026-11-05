@@ -17,6 +17,15 @@ class TestScoreTool(unittest.TestCase):
             places=2,
         )
 
+    def test_load_students(self):
+        students = score_tool.load_students()
+
+        self.assertEqual(len(students), 3)
+        self.assertEqual(
+            students[0],
+            {"name": "zs", "score": 92},
+        )
+
     def test_highest_student(self):
         students = [
             {"name": "zs", "score": 92},

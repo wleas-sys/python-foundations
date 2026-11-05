@@ -1,3 +1,15 @@
+import json
+from pathlib import Path
+
+
+DATA_FILE = Path(__file__).with_name("scores.json")
+
+
+def load_students(path=DATA_FILE):
+    with path.open("r", encoding="utf-8") as file:
+        return json.load(file)
+
+
 def validate_score(value):
     if not isinstance(value, (int, float)):
         raise ValueError("score must be a number")
@@ -67,11 +79,7 @@ def format_report(report):
     )
 
 def main():
-    students = [
-        {"name": "zs", "score": 92},
-        {"name": "ls", "score": 58},
-        {"name": "ww", "score": 76},
-    ]
+    students = load_students()
     report = build_report(students)
     print(format_report(report))
 

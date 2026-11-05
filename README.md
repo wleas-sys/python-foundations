@@ -19,7 +19,7 @@
 
 ## 当前项目：成绩统计工具
 
-`week1/score_tool.py` 使用一组内存中的学生成绩计算：
+`week1/score_tool.py` 从 `week1/scores.json` 读取学生成绩并计算：
 
 - 平均分
 - 最高分学生
@@ -49,7 +49,7 @@
 .\.venv\Scripts\python.exe .\week1\test_score_tool.py
 ```
 
-当前包含 7 个测试，覆盖正常统计和异常输入。
+当前包含 8 个测试，覆盖正常统计、JSON 读取和异常输入。
 
 ## 目录结构
 
@@ -63,6 +63,7 @@ python-foundations/
     ├── hello_pycharm.py
     ├── math_notes.md
     ├── questions.md
+    ├── scores.json
     ├── scope_test.py
     ├── score_tool.py
     ├── test_import.py
@@ -71,7 +72,6 @@ python-foundations/
 
 ## 当前限制
 
-- 学生数据暂时写在 `main()` 中。
-- 尚未实现 JSON 文件读取。
-- 尚未实现命令行参数。
+- 数据文件路径暂未通过命令行参数指定。
+- JSON 文件缺失或格式错误时，还没有转换成更友好的提示。
 
