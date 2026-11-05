@@ -6,8 +6,18 @@ DATA_FILE = Path(__file__).with_name("scores.json")
 
 
 def load_students(path=DATA_FILE):
-    with path.open("r", encoding="utf-8") as file:
-        return json.load(file)
+    try:
+        with path.open("r", encoding="utf-8") as file:
+            students = json.load(file)
+    except FileNotFoundError as error:
+        raise FileNotFoundError(f"scores file not found: {path}") from error
+    except json.JSONDecodeError as error:
+        raise ValueError(f"invalid JSON in {path}") from error
+
+    if not isinstance(students, list):
+        raise ValueError("top-level JSON value must be a list")
+
+    return students
 
 
 def validate_score(value):

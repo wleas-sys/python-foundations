@@ -1,4 +1,6 @@
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import score_tool
 
@@ -79,6 +81,38 @@ class TestScoreTool(unittest.TestCase):
             "students cannot be empty",
         ):
             score_tool.calculate_average([])
+
+    def test_rejects_missing_scores_file(self):
+        with self.assertRaisesRegex(
+            FileNotFoundError,
+            "scores file not found",
+        ):
+            score_tool.load_students(Path("missing.json"))
+
+    def test_rejects_invalid_json(self):
+        with TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "invalid.json"
+            path.write_text("{invalid json", encoding="utf-8")
+
+            with self.assertRaisesRegex(
+                ValueError,
+                "invalid JSON",
+            ):
+                score_tool.load_students(path)
+
+    def test_rejects_non_list_json(self):
+        with TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "student.json"
+            path.write_text(
+                '{"name": "zs", "score": 92}',
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(
+                ValueError,
+                "top-level JSON value must be a list",
+            ):
+                score_tool.load_students(path)
 
 
 if __name__ == "__main__":
