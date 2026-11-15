@@ -1,0 +1,13 @@
+# 依赖清单：本仓库运行与测试所需
+#
+# 安装方式（在仓库根目录执行）：
+#   python -m pip install -r requirements.txt
+#
+# 用途：
+#   pytest      —— 测试框架。P1 起替代 unittest，是测试开发岗 JD 的高频关键词
+#   pytest-cov  —— 覆盖率报告插件。P3 接 CI 时用它出覆盖率徽章
+#
+# 说明：核心工具（Python 3.12 标准库）不列在这里，标准库无需安装。
+
+pytest>=9.0.0
+pytest-cov>=7.0.0
