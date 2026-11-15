@@ -31,5 +31,6 @@ def main():
     print(find_total([3, 99, 7]))
     print(find_average([12, 7, 25, 3, 18]))
     print(find_average([3, 99, 7]))
-main()
+if __name__ == '__main__':
+    main()
 
