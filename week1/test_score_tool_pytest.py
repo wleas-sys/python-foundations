@@ -26,3 +26,48 @@ def test_rejects_non_numeric_score(): # 顶格函数，与上一个同级，不�
     #       match 用 re.search 语义匹配异常消息（包含关系，非完全相等）
     with pytest.raises(ValueError, match="score must be a number"):
         score_tool.get_student_score({"name": "bad", "score": "92"})
+def test_rejects_empty_students():
+    # 被测行为：calculate_average 收到空列表必须拒绝，不能返回 0 或崩溃成 ZeroDivisionError
+    # 原 unittest 写法：with self.assertRaisesRegex(ValueError, "students cannot be empty"):
+    # pytest 写法：pytest.raises(类型, match=正则)
+    # match 用 re.search 语义 —— 异常消息里"包含"这段文本即可，不要求完全相等
+    with pytest.raises(ValueError, match="students cannot be empty"):
+        score_tool.calculate_average([])
+def test_load_students(tmp_path):
+    fake = tmp_path / "scores.json"
+    fake.write_text('[{"name":"a","score":1},{"name":"b","score":2}]', encoding="utf-8")
+    students = score_tool.load_students(fake)
+    # 被测行为：load_students 不传参时读默认文件，返回 3 条记录
+    # ⚠️ 这个测试依赖真实的 week1/scores.json —— 文件一变，测试就挂（下一步用 tmp_path 解决）
+    # unittest: self.assertEqual(len(students), 3)
+    # pytest  : assert 实际值 == 期望值
+    # 原理：assert 是语句不是函数，所以不需要括号；表达式为假时抛 AssertionError
+    assert len(students) == 2
+    assert students[0]["name"] == "a"
+    # unittest: self.assertEqual(students[0], {"name": "zs", "score": 92})
+    # 原理：字典的 == 比较内容，与键的书写顺序无关
+    assert students[0] == {"name": "a", "score": 1}
+def test_highest_student():
+    students = [
+        {"name": "zs", "score": 92},
+        {"name": "ls", "score": 58},
+        {"name": "ww", "score": 76},
+    ]
+    assert score_tool.find_highest_student(students)== {"name": "zs", "score": 92}
+def test_pass_rate():
+    students = [
+        {"name": "zs", "score": 92},
+        {"name": "ls", "score": 58},
+        {"name": "ww", "score": 76},
+    ]
+    assert score_tool.calculate_pass_rate(students) == pytest.approx(
+        66.666666,
+        abs=0.01,
+    )
+
+@pytest.mark.parametrize("score", [-5,150])# ① 参数名字符串
+def test_rejects_out_of_range_score(score):
+        with pytest.raises(ValueError, match="score must be between 0 and 100"):
+            score_tool.get_student_score({"name": "bad", "score": score})
+
+
