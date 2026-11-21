@@ -1,7 +1,7 @@
 import pytest # 用到 pytest.approx 和 pytest.raises，必须导入
 
-import score_tool      # 导入被测模块，和原文件一样
-
+import score_tool # 导入被测模块，和原文件一样
+from pathlib import Path
 
 def test_average(): # 顶格函数：pytest 只收顶层名字
     students = [
@@ -69,5 +69,16 @@ def test_pass_rate():
 def test_rejects_out_of_range_score(score):
         with pytest.raises(ValueError, match="score must be between 0 and 100"):
             score_tool.get_student_score({"name": "bad", "score": score})
+def test_rejects_student_without_score():
+        with pytest.raises(ValueError, match="student must contain score"):
+            score_tool.calculate_average([{"name": "bad"}])
+def test_rejects_missing_scores_file():
+        with pytest.raises(FileNotFoundError, match="scores file not found"):
+            score_tool.load_students(Path("missing.json"))
+def test_rejects_invalid_json(tmp_path):
+    bad = tmp_path / "1.json"                    # ① 文件名随便起
+    bad.write_text("invalid json", encoding="utf-8")        # ② 写一段坏 JSON
+    with pytest.raises(ValueError, match="invalid JSON"):   # ③ 期望消息
+         score_tool.load_students(bad)
 
 
