@@ -80,5 +80,12 @@ def test_rejects_invalid_json(tmp_path):
     bad.write_text("invalid json", encoding="utf-8")        # ② 写一段坏 JSON
     with pytest.raises(ValueError, match="invalid JSON"):   # ③ 期望消息
          score_tool.load_students(bad)
-
+def test_rejects_non_list_json(tmp_path):
+    bad = tmp_path / "student.json"                    # ① 文件名
+    bad.write_text('{"name": "zs", "score": 92}', encoding="utf-8")        # ② 合法 JSON，但顶层不是数组
+    with pytest.raises(ValueError, match="top-level JSON value must be a list"):   # ③ 期望消息
+        score_tool.load_students(bad)
+def test_parse_args_accepts_custom_path():
+    args = score_tool.parse_args(["custom.json"])          # ① 传入什么
+    assert args.path == Path("custom.json")                # ② 期望值
 
